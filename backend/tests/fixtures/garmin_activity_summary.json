@@ -1,0 +1,36 @@
+{
+  "activityId": 123456789,
+  "activityName": "Endurance fondamentale",
+  "startTimeLocal": "2026-04-19 08:30:00",
+  "activityTypeDTO": {
+    "typeKey": "running"
+  },
+  "summaryDTO": {
+    "distance": 10240.0,
+    "duration": 3133.0,
+    "movingDuration": 3100.0,
+    "averageSpeed": 3.268,
+    "averageHR": 148,
+    "maxHR": 174,
+    "trainingLoad": 142.0,
+    "aerobicTrainingEffect": 3.2,
+    "anaerobicTrainingEffect": 0.8,
+    "elevationGain": 86.0,
+    "totalDescent": 74.0,
+    "calories": 640,
+    "avgPower": 256,
+    "maxPower": 612,
+    "avgStrideLength": 1.18,
+    "avgVerticalRatio": 7.4,
+    "avgVerticalOscillation": 8.7,
+    "avgGroundContactTime": 241,
+    "startStamina": 91,
+    "endStamina": 43,
+    "minStamina": 39
+  },
+  "vO2MaxValue": 52.0,
+  "fitnessState": "productive",
+  "weatherDTO": {
+    "weatherType": "clear"
+  }
+}

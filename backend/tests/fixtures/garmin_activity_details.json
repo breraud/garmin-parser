@@ -1,0 +1,17 @@
+{
+  "metricDescriptors": [
+    {"metricsIndex": 0, "key": "directTimestamp"},
+    {"metricsIndex": 1, "key": "sumDistance"},
+    {"metricsIndex": 2, "key": "directHeartRate"},
+    {"metricsIndex": 3, "key": "directSpeed"},
+    {"metricsIndex": 4, "key": "directElevation"},
+    {"metricsIndex": 5, "key": "directRunCadence"}
+  ],
+  "activityDetailMetrics": [
+    {"metrics": ["2026-04-19T10:00:00", 0.0, 130, 2.8, 120.0, 164]},
+    {"metrics": ["2026-04-19T10:00:05", 20.0, 132, 3.0, 121.0, 166]},
+    {"metrics": ["2026-04-19T10:00:10", 42.0, 135, 3.2, 122.0, 168]},
+    {"metrics": ["2026-04-19T10:00:20", 78.0, 141, 3.6, 124.0, 172]},
+    {"metrics": ["2026-04-19T10:00:30", 112.0, null, 3.4, 126.0, 170]}
+  ]
+}

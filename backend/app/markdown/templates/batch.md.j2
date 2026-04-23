@@ -1,0 +1,55 @@
+---
+activity_count: {{ activity_count }}
+{% if activities %}
+date_from: "{{ activities[0].summary.date.isoformat() }}"
+date_to: "{{ activities[-1].summary.date.isoformat() }}"
+{% else %}
+date_from: null
+date_to: null
+{% endif %}
+activity_type: "running"
+source: "Garmin Connect"
+schema_version: "{{ schema_version }}"
+---
+
+# Export Garmin Multi-Seances
+
+## Resume Global
+
+- Nombre d'activites: {{ activity_count }}
+- Distance totale: {{ total_distance_km | distance }}
+- Duree totale: {{ total_duration_seconds | duration }}
+
+| Date | Titre | Distance | Duree | Allure moy | FC moy |
+| --- | --- | ---: | ---: | ---: | ---: |
+{% for activity in activities %}
+| {{ activity.summary.date.isoformat() }} | {{ activity.summary.title or "Sans titre" }} | {{ activity.summary.distance_km | distance }} | {{ activity.summary.duration_seconds | duration }} | {{ activity.summary.average_pace_min_per_km | pace }} | {{ activity.summary.average_hr | optional }} |
+{% endfor %}
+
+{% for activity in activities %}
+## Activite {{ loop.index }} - {{ activity.summary.date.isoformat() }}
+
+### Performance
+
+| Metrique | Valeur |
+| --- | ---: |
+| ID | {{ activity.summary.activity_id }} |
+| Type | {{ activity.summary.activity_type }} |
+| Distance | {{ activity.summary.distance_km | distance }} |
+| Duree | {{ activity.summary.duration_seconds | duration }} |
+| Allure moyenne | {{ activity.summary.average_pace_min_per_km | pace }} |
+| FC moyenne | {{ activity.summary.average_hr | optional(" bpm") }} |
+| Charge d'entrainement | {{ activity.summary.training_load | compact_number }} |
+
+### Tours
+
+| Tour | Type | Dist | Temps | Allure | FC moy | FC max | D+ |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+{% for split in activity.splits %}
+| {{ split.index }} | {{ split.step_type }} | {{ split.distance_km | distance }} | {{ split.duration_seconds | duration_compact }} | {{ split.pace_min_per_km | pace }} | {{ split.average_hr | optional }} | {{ split.max_hr | optional }} | {{ split.elevation_gain_m | meters }} |
+{% endfor %}
+
+{% endfor %}
+## Notes Contextuelles
+
+{{ notes or "Non renseigne" }}

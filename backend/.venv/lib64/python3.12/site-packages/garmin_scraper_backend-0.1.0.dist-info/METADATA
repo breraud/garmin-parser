@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: garmin-scraper-backend
+Version: 0.1.0
+Summary: FastAPI backend for exporting Garmin Connect running activities to LLM-friendly Markdown.
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: starlette<1.0.0,>=0.46.0
+Requires-Dist: anyio<4.13.0,>=4.0.0
+Requires-Dist: uvicorn[standard]>=0.30.0
+Requires-Dist: garminconnect>=0.2.25
+Requires-Dist: pandas>=2.2.0
+Requires-Dist: fitparse>=1.2.0
+Requires-Dist: jinja2>=3.1.0
+Requires-Dist: pydantic>=2.8.0
+Requires-Dist: pydantic-settings>=2.4.0
+Requires-Dist: python-dotenv>=1.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.3.0; extra == "dev"
+Requires-Dist: pytest-cov>=5.0.0; extra == "dev"
+Requires-Dist: httpx>=0.27.0; extra == "dev"
+Requires-Dist: ruff>=0.6.0; extra == "dev"
+Requires-Dist: mypy>=1.11.0; extra == "dev"
+
+FastAPI backend for exporting Garmin Connect running activities to LLM-friendly Markdown.

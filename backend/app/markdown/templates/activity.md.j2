@@ -1,0 +1,104 @@
+---
+activity_id: "{{ activity.summary.activity_id }}"
+date: "{{ activity.summary.date.isoformat() }}"
+activity_type: "{{ activity.summary.activity_type }}"
+title: "{{ activity.summary.title or '' }}"
+training_load: {% if activity.summary.training_load is none %}null{% else %}{{ activity.summary.training_load | compact_number }}{% endif %}
+fitness_state: {% if activity.summary.fitness_state is none %}null{% else %}"{{ activity.summary.fitness_state }}"{% endif %}
+source: "Garmin Connect"
+schema_version: "{{ schema_version }}"
+---
+
+# Seance Garmin - {{ activity.summary.date.isoformat() }}
+
+## Resume
+
+- Distance: {{ activity.summary.distance_km | distance }}
+- Duree: {{ activity.summary.duration_seconds | duration }}
+- Allure moyenne: {{ activity.summary.average_pace_min_per_km | pace }}
+- Frequence cardiaque moyenne: {{ activity.summary.average_hr | optional(" bpm") }}
+- Denivele positif: {{ activity.summary.elevation_gain_m | meters }}
+- Dénivelé négatif: {{ activity.summary.elevation_loss_m | meters }}
+- Charge d'entrainement: {{ activity.summary.training_load | compact_number }}
+
+## Performance
+
+| Metrique | Valeur |
+| --- | ---: |
+| Distance | {{ activity.summary.distance_km | distance }} |
+| Allure moyenne | {{ activity.summary.average_pace_min_per_km | pace }} |
+| FC moyenne | {{ activity.summary.average_hr | optional(" bpm") }} |
+| FC max | {{ activity.summary.max_hr | optional(" bpm") }} |
+| Training Effect aerobie | {{ activity.summary.training_effect_aerobic | compact_number }} |
+| Training Effect anaerobie | {{ activity.summary.training_effect_anaerobic | compact_number }} |
+| Calories | {{ activity.summary.calories | optional(" kcal") }} |
+| VO2max | {{ activity.summary.vo2max | compact_number }} |
+
+{% set dynamics_available = activity.summary.avg_power is not none or activity.summary.max_power is not none or activity.summary.avg_stride_length is not none or activity.summary.avg_vertical_ratio is not none or activity.summary.avg_vertical_oscillation is not none or activity.summary.avg_ground_contact_time is not none or activity.summary.start_stamina is not none or activity.summary.end_stamina is not none or activity.summary.min_stamina is not none %}
+{% if dynamics_available %}
+## Dynamiques de Course & Puissance
+
+| Metrique | Valeur |
+| --- | ---: |
+{% if activity.summary.avg_power is not none %}| Puissance moyenne | {{ activity.summary.avg_power | compact_number }} W |
+{% endif %}
+{% if activity.summary.max_power is not none %}| Puissance max | {{ activity.summary.max_power | compact_number }} W |
+{% endif %}
+{% if activity.summary.avg_stride_length is not none %}| Longueur de foulee | {{ activity.summary.avg_stride_length | compact_number }} m |
+{% endif %}
+{% if activity.summary.avg_ground_contact_time is not none %}| Temps de contact au sol | {{ activity.summary.avg_ground_contact_time | compact_number }} ms |
+{% endif %}
+{% if activity.summary.avg_vertical_ratio is not none %}| Ratio vertical | {{ activity.summary.avg_vertical_ratio | compact_number }} % |
+{% endif %}
+{% if activity.summary.avg_vertical_oscillation is not none %}| Oscillation verticale | {{ activity.summary.avg_vertical_oscillation | compact_number }} cm |
+{% endif %}
+{% if activity.summary.start_stamina is not none %}| Stamina debut | {{ activity.summary.start_stamina | compact_number }} |
+{% endif %}
+{% if activity.summary.end_stamina is not none %}| Stamina fin | {{ activity.summary.end_stamina | compact_number }} |
+{% endif %}
+{% if activity.summary.min_stamina is not none %}| Stamina min | {{ activity.summary.min_stamina | compact_number }} |
+{% endif %}
+
+{% endif %}
+## Physiologie Et Recuperation
+
+| Metrique | Valeur |
+| --- | ---: |
+| FC repos | {{ activity.physiology.resting_hr | optional(" bpm") }} |
+| Statut HRV | {{ activity.physiology.hrv_status | optional }} |
+| HRV moyenne | {{ activity.physiology.hrv_avg_ms | optional(" ms") }} |
+| Body Battery debut | {{ activity.physiology.body_battery_start | optional }} |
+| Body Battery fin | {{ activity.physiology.body_battery_end | optional }} |
+| Impact seance | {{ activity.physiology.body_battery_impact | optional }} |
+| Stress moyen | {{ activity.physiology.stress_avg | optional }} |
+| Score sommeil | {{ activity.physiology.sleep_score | optional }} |
+| Temps de recuperation | {{ activity.physiology.recovery_time_hours | optional(" h") }} |
+| Training readiness | {{ activity.physiology.training_readiness | optional }} |
+
+## Temps dans les Zones FC
+
+| Zone | Temps |
+| --- | ---: |
+{% for zone in activity.heart_rate_zones %}
+| {{ zone.zone }} | {{ zone.duration_seconds | duration_compact }} |
+{% endfor %}
+
+## Tours
+
+| Tour | Type | Dist | Temps | Allure | FC moy | FC max | D+ | D- |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+{% for split in activity.splits %}
+| {{ split.index }} | {{ split.step_type }} | {{ split.distance_km | distance }} | {{ split.duration_seconds | duration_compact }} | {{ split.pace_min_per_km | pace }} | {{ split.average_hr | optional }} | {{ split.max_hr | optional }} | {{ split.elevation_gain_m | meters }} | {{ split.elevation_loss_m | meters }} |
+{% endfor %}
+
+## Evolution Temporelle (Intervalle: 10s)
+
+| Temps | Dist | FC | Allure | Denivele | Cadence | Puissance (W) |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+{% for point in activity.time_series %}
+| {{ point.elapsed_seconds | duration_compact }} | {{ point.distance_km | distance_token }} | {{ point.heart_rate | compact_token }} | {{ point.pace_min_per_km | pace_compact }} | {{ point.elevation_m | meters_token }} | {{ point.cadence_spm | compact_token }} | {{ point.power_w | compact_token }} |
+{% endfor %}
+
+## Notes Contextuelles
+
+{{ notes or "Non renseigné" }}

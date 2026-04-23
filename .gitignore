@@ -1,0 +1,25 @@
+# Dépendances et builds
+node_modules/
+.next/
+out/
+build/
+__pycache__/
+*.pyc
+venv/
+env/
+
+# Variables d'environnement et secrets
+.env
+.env.local
+.env.*
+
+# Données locales Garmin
+session_data/
+garmin_session_data/
+
+# Outils IA et OS
+.codex/
+.codex
+.claude/
+.cursor/
+.DS_Store

@@ -1,0 +1,37 @@
+[
+  {
+    "splitNumber": 1,
+    "stepType": "WARMUP",
+    "distance": 1000.0,
+    "duration": 318.0,
+    "averageSpeed": 3.145,
+    "averageHR": 137,
+    "maxHR": 149,
+    "elevationGain": 8.0,
+    "elevationLoss": 2.0,
+    "averageRunCadence": 168.0,
+    "strideLength": 1.12
+  },
+  {
+    "splitNumber": 2,
+    "stepType": "INTERVAL_ACTIVE",
+    "distance": 1000.0,
+    "duration": 308.0,
+    "averageSpeed": 3.247,
+    "averageHR": 144,
+    "maxHR": 153,
+    "elevationGain": 4.0,
+    "elevationLoss": 1.0,
+    "averageRunCadence": 171.0,
+    "strideLength": 1.14
+  },
+  {
+    "splitNumber": 3,
+    "stepType": "INTERVAL_REST",
+    "distance": 1000.0,
+    "duration": 315.0,
+    "averageSpeed": null,
+    "averageHR": null,
+    "maxHR": null
+  }
+]
