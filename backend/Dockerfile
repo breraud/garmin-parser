@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir .
 
 EXPOSE 3567
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3567"]
+CMD ["uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "3567"]

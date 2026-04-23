@@ -9,17 +9,13 @@ BACKEND_DIR = Path(__file__).resolve().parents[2]
 
 
 class Settings(BaseSettings):
-    # On passe en production pour désactiver les comportements de dev
-    app_env: str = Field(default="production", alias="APP_ENV")
+    app_env: str = Field(default="local", alias="APP_ENV")
     
-    # IMPORTANT : Dans un container Docker, api_host DOIT être 0.0.0.0 
-    # pour que le port mapping (3567:3567) fonctionne.
     api_host: str = Field(default="0.0.0.0", alias="API_HOST")
     api_port: int = Field(default=3567, alias="API_PORT")
     
-    # On ajoute ton domaine dans les origines autorisées pour corriger le CORS
     frontend_origin: str = Field(
-        default="https://garmin.beraud.dev,http://garmin.beraud.dev,http://localhost:3568", 
+        default="http://localhost:3568",
         alias="FRONTEND_ORIGIN"
     )
     
@@ -33,7 +29,6 @@ class Settings(BaseSettings):
     auth_session_ttl_seconds: int = Field(default=600, alias="AUTH_SESSION_TTL_SECONDS")
 
     model_config = SettingsConfigDict(
-        # Il va chercher dans le .env à la racine du projet ou du backend
         env_file=(str(ROOT_DIR / ".env"), str(BACKEND_DIR / ".env")),
         env_file_encoding="utf-8",
         extra="ignore",
@@ -42,7 +37,6 @@ class Settings(BaseSettings):
 
     @property
     def allowed_origins(self) -> list[str]:
-        # Découpe la chaîne par les virgules pour créer la liste CORS
         origins = [
             origin.strip()
             for origin in self.frontend_origin.split(",")

@@ -14,7 +14,7 @@ services:
     build:
       context: ./frontend
       args:
-        NEXT_PUBLIC_API_BASE_URL: https://garmin.beraud.dev
+        NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:3567
     ports:
       - "127.0.0.1:3568:3568"
     depends_on:
